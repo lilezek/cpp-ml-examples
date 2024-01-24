@@ -24,6 +24,6 @@ namespace math
   template <Ring T>
   T RandomRange(T min, T max)
   {
-    return (T)rand() / RAND_MAX * (max - min) + min;
+    return (T)rand() / T(RAND_MAX) * (max - min) + min;
   }
 }

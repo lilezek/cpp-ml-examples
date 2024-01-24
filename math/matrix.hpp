@@ -18,9 +18,9 @@ namespace math
     int columns_;
 
   public:
-    [[nodiscard]] static Matrix<T> diagonal(const T &value, int size, bool withGradient = true)
+    [[nodiscard]] static Matrix<T> diagonal(const T &value, int size)
     {
-      Matrix<T> result(size, size, withGradient);
+      Matrix<T> result(size, size);
       for (int i = 0; i < size; i++)
       {
         result(i, i) = value;
@@ -31,6 +31,11 @@ namespace math
     [[nodiscard]] static Matrix<T> identity(int size)
     {
       return diagonal((T)1, size);
+    }
+
+    [[nodiscard]] static Matrix<T> zero(int rows, int columns)
+    {
+      return Matrix<T>(rows, columns);
     }
 
     Matrix(int rows,

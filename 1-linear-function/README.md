@@ -2,6 +2,8 @@
 
 In this example I use a basic implementation of SGD to approximate a linear function.
 
+This uses no ML code, only the math formulas.
+
 ## The math
 
 The function is of the form of `y = ax + b`.

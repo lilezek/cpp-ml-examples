@@ -14,18 +14,18 @@ Edges will be labeled with the value of the gradient.
 
 For example, if we have $C = A + B$, the tree will be:
 
-```
-Root: C
-C -> A: I
-C -> B: I
-```
+
+> $Root: C$ \
+> $C \rightarrow A: I$ \
+> $C \rightarrow B: I$ 
+
 
 Or if we have $C = X \cdot W + B$:
 
-```
-Root: C
-C -> (X \cdot W)
-C -> B: I
-(X \cdot W) -> X: W^T
-(X \cdot W) -> W: X^T
-```
+
+> Root: C \
+> $C \rightarrow (X \cdot W)$ \
+> $C \rightarrow B: I$ \
+> $(X \cdot W) \rightarrow X: W^T$ \
+> $(X \cdot W) \rightarrow W: X^T$
+

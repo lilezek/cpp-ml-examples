@@ -2,6 +2,8 @@
   "files.associations": {
     "concepts": "cpp",
     "type_traits": "cpp",
-    "initializer_list": "cpp"
-  }
+    "initializer_list": "cpp",
+    "tuple": "cpp",
+    "array": "cpp"
+  },
 }

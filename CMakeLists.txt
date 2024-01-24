@@ -21,3 +21,12 @@ file(GLOB_RECURSE EXAMPLE_SOURCES CONFIGURE_DEPENDS 1-linear-function/*.cpp)
 add_executable(example-1 ${EXAMPLE_SOURCES})
 target_include_directories(example-1 PUBLIC math)
 target_link_libraries(example-1 math)
+
+# Example 2
+project(example-2)
+file(GLOB_RECURSE EXAMPLE_SOURCES CONFIGURE_DEPENDS 2-computing-grads/*.cpp)
+
+add_executable(example-2 ${EXAMPLE_SOURCES})
+target_include_directories(example-2 PUBLIC math)
+target_link_libraries(example-2 math)
+set_target_properties(example-2 PROPERTIES LINKER_LANGUAGE CXX)

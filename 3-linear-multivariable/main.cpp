@@ -1,14 +1,14 @@
 #include <iostream>
 #include <matrix.hpp>
-#include "../1-linear-function/linear_function.hpp"
-#include "grads.hpp"
+#include "linear_multivariable_function.hpp"
+#include "../2-computing-grads/grads.hpp"
 
 using Graph = OperationGraph<float>;
 using Node = OperationNode<float>;
 
-const auto identity = math::Matrix<float>::identity(1);
-const auto learning_rate_decay = 0.99f;
-auto learning_rate = 0.1f;
+const auto identity = math::Matrix<float>::identity(2);
+const auto learning_rate_decay = 0.9999f;
+auto learning_rate = 0.01f;
 
 // The operation:
 // L = (y - yHat)^2
@@ -24,7 +24,7 @@ Node &y = graph.CreateLeaf();
 Node &w_by_x = graph.CreateNode(
     w, x,
     [](auto w, auto x)
-    { return w * x; },
+    { return x * w; },
     [](auto w, auto x)
     { return x.transpose(); },
     [](auto w, auto x)
@@ -52,22 +52,24 @@ Node &L = graph.CreateNode(
 
 int main()
 {
-  w = math::Matrix{{1.f}};
-  b = math::Matrix{{0.f}};
+  w = math::Matrix<float>::identity(2);
+  b = math::Matrix<float>::zero(2, 2);
 
-  auto m = math::RandomRange(-100.f, 100.f);
-  auto n = math::RandomRange(-100.f, 100.f);
+  auto m = math::RandomMatrix(-5.f, 5.f, 2, 2);
+  auto n = math::RandomMatrix(-5.f, 5.f, 2, 2);
 
-  LinearFunction lf(m, n);
+  // auto m = math::Matrix<float>::identity(2);
+  // auto n = math::Matrix<float>::identity(2);
 
-  for (int i = 0; i < 100; i++)
+  LinearMultivariableFunction<float> lf(m, n);
+
+  for (int i = 0; i < 1000; i++)
   {
-    auto xRand = math::RandomRange(-5.f, 5.f);
-    x = math::Matrix{{xRand}};
-    y = math::Matrix{{lf(xRand)}};
+    x = math::RandomMatrix(-5.f, 5.f, 2, 2);
+    y = lf(x.value());
 
     auto value = L.forward();
-    std::cout << "L: " << value;
+    // std::cout << "L: " << value;
 
     L.backward();
     // std::cout << "w gradient: " << w.gradient();
@@ -81,6 +83,8 @@ int main()
     // std::cout << "b: " << b.value() << std::endl;
   }
 
+  std::cout << "m: " << m;
+  std::cout << "n: " << n;
   std::cout << "w: " << w.value();
   std::cout << "b: " << b.value() << std::endl;
 

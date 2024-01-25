@@ -17,6 +17,15 @@ namespace math
     int rows_;
     int columns_;
 
+    void incompatibleDimensions(const Matrix &other) const
+    {
+      auto message = "Matrix dimensions do not match: " +
+                     std::to_string(rows_) + "x" + std::to_string(columns_) +
+                     " and " +
+                     std::to_string(other.rows_) + "x" + std::to_string(other.columns_);
+      throw std::runtime_error(message);
+    }
+
   public:
     [[nodiscard]] static Matrix<T> diagonal(const T &value, int size)
     {
@@ -31,6 +40,16 @@ namespace math
     [[nodiscard]] static Matrix<T> identity(int size)
     {
       return diagonal((T)1, size);
+    }
+
+    [[nodiscard]] static Matrix<T> identity(const Matrix &other)
+    {
+      if (other.columns_ != other.rows_)
+      {
+        throw std::runtime_error("Identity matrices can't be built from non-square matrices.");
+      }
+
+      return diagonal((T)1, other.columns_);
     }
 
     [[nodiscard]] static Matrix<T> zero(int rows, int columns)
@@ -59,6 +78,11 @@ namespace math
       }
     }
 
+    bool isEmpty() const
+    {
+      return rows_ == 0 && columns_ == 0;
+    }
+
     [[nodiscard]] int rows() const
     {
       return rows_;
@@ -81,6 +105,10 @@ namespace math
 
     Matrix operator+(const Matrix &other) const
     {
+      if (rows_ != other.rows_ || columns_ != other.columns_) [[unlikely]]
+      {
+        incompatibleDimensions(other);
+      }
       Matrix result(rows_, columns_);
       for (int i = 0; i < rows_; i++)
       {
@@ -95,6 +123,11 @@ namespace math
 
     Matrix operator-(const Matrix &other) const
     {
+      if (rows_ != other.rows_ || columns_ != other.columns_) [[unlikely]]
+      {
+        incompatibleDimensions(other);
+      }
+
       Matrix result(rows_, columns_);
       for (int i = 0; i < rows_; i++)
       {
@@ -109,6 +142,11 @@ namespace math
 
     Matrix operator*(const Matrix &other) const
     {
+      if (columns_ != other.rows_) [[unlikely]]
+      {
+        incompatibleDimensions(other);
+      }
+
       Matrix result(rows_, other.columns_);
       for (int i = 0; i < rows_; i++)
       {
@@ -166,5 +204,19 @@ namespace math
       os << std::endl;
     }
     return os;
+  }
+
+  template <Ring T>
+  Matrix<T> RandomMatrix(T min, T max, size_t rows, size_t columns)
+  {
+    Matrix<T> result(rows, columns);
+    for (int i = 0; i < rows; i++)
+    {
+      for (int j = 0; j < columns; j++)
+      {
+        result(i, j) = RandomRange(min, max);
+      }
+    }
+    return result;
   }
 }

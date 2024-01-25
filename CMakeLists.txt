@@ -30,3 +30,12 @@ add_executable(example-2 ${EXAMPLE_SOURCES})
 target_include_directories(example-2 PUBLIC math)
 target_link_libraries(example-2 math)
 set_target_properties(example-2 PROPERTIES LINKER_LANGUAGE CXX)
+
+# Example 3
+project(example-3)
+file(GLOB_RECURSE EXAMPLE_SOURCES CONFIGURE_DEPENDS 3-linear-multivariable/*.cpp)
+
+add_executable(example-3 ${EXAMPLE_SOURCES})
+target_include_directories(example-3 PUBLIC math)
+target_link_libraries(example-3 math)
+set_target_properties(example-3 PROPERTIES LINKER_LANGUAGE CXX)

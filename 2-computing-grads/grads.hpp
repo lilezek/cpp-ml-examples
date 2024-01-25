@@ -119,11 +119,17 @@ public:
     return value_;
   }
 
-  void backward(const Matrix &gradient = Matrix::identity(1))
+  void backward(const Matrix &gradient = Matrix(0, 0))
   {
+    // If the gradient is empty, replace it with the identity matrix
+    gradient_ = gradient;
+    if (gradient_.isEmpty())
+    {
+      gradient_ = Matrix::identity(value_);
+    }
+
     if (left_ == nullptr && right_ == nullptr)
     {
-      gradient_ = gradient;
       return;
     }
 
@@ -133,8 +139,8 @@ public:
     auto leftGradient = leftGradient_(leftValue, rightValue);
     auto rightGradient = rightGradient_(leftValue, rightValue);
 
-    left_->backward(leftGradient * gradient);
-    right_->backward(rightGradient * gradient);
+    left_->backward(leftGradient * gradient_);
+    right_->backward(rightGradient * gradient_);
   }
 
   [[nodiscard]] const Matrix &gradient() const

@@ -6,4 +6,8 @@
     "tuple": "cpp",
     "array": "cpp"
   },
+  "cSpell.words": [
+    "GELU",
+    "Multivariable"
+  ]
 }

@@ -1,4 +1,4 @@
-#include "numbers.hpp"
+#include <numbers.hpp>
 
 template <math::Ring T>
 class LinearFunction
